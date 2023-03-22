@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from "./material/material.module";
 import {BlogComponent} from "./blog.component";
 import {HttpClientModule} from "@angular/common/http";
+import {APP_BASE_HREF} from "@angular/common";
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,7 @@ import {HttpClientModule} from "@angular/common/http";
 		FormsModule,
 		HttpClientModule,
 	],
-	providers: [],
+	providers: [{provide: APP_BASE_HREF, useValue: '/rpg-blog'}],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
