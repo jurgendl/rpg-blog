@@ -1,0 +1,22 @@
+<div class="bg-main flex-row center">
+	<div class="wrapper">
+		<div class="container">
+			<div class="p-2">
+				<mat-form-field class="example-full-width">
+					<mat-label>Search</mat-label>
+					<input matInput _placeholder="Search" [(ngModel)]="searchTerm" (keyup)="search()">
+				</mat-form-field>
+			</div>
+			<main class="p-2" *ngFor="let post of posts$ | async">
+				<section class="intro">
+					<div class="title">
+						<h2>{{ post.title }}</h2>
+					</div>
+					<div class="post mt-2 mb-2">
+						{{ post.text }}
+					</div>
+				</section>
+			</main>
+		</div>
+	</div>
+</div>

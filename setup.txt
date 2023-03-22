@@ -1,0 +1,10 @@
+ng new bootstrap-angular
+	USE scss
+cd bootstrap-angular
+ng add @angular/material
+
+
+
+
+
+
