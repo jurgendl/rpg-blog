@@ -1,6 +1,6 @@
-ng new bootstrap-angular
+ng new rpg-blog
 	USE scss
-cd bootstrap-angular
+cd rpg-blog
 ng add @angular/material
 
 
