@@ -7,6 +7,7 @@ export interface Post {
 	id: number;
 	title: string;
 	text: string;
+	plainText: string;
 }
 
 @Injectable({
@@ -18,17 +19,31 @@ export class BlogService {
 	constructor(private http: HttpClient) {
 	}
 
+	//https://dev.to/sanchithasr/3-ways-to-convert-html-text-to-plain-text-52l8
+	convertToPlain(html: string){
+		// Create a new div element
+		const tempDivElement = document.createElement("div");
+
+		// Set the HTML content with the given value
+		tempDivElement.innerHTML = html;
+
+		// Retrieve the text property of the element
+		return tempDivElement.textContent || tempDivElement.innerText || "";
+	}
+
 	getPosts(): Observable<Post[]> {
 		return this.http.get<Post[]>(this.baseUrl);
 	}
 
 	searchPosts(searchTerm: string): Observable<Post[]> {
+		const searchTermLC = searchTerm.toLowerCase();
 		return this.http.get<Post[]>(this.baseUrl).pipe(
 			map((posts) =>
 				posts.filter(
-					(post) =>
-						post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-						post.text.toLowerCase().includes(searchTerm.toLowerCase())
+					(post) => {
+						if(!post.plainText)	post.plainText = this.convertToPlain(post.text).toLowerCase();
+						return post.title.toLowerCase().includes(searchTermLC) || post.plainText.includes(searchTermLC);
+					}
 				)
 			)
 		);

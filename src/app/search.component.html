@@ -1,0 +1,4 @@
+<mat-form-field>
+	<input matInput [(ngModel)]="searchString" #searchModel=ngModel name="searchString" (input)="search(searchModel.value)" placeholder="Search"/>
+</mat-form-field>
+<button *ngIf="toonReset" (click)="reset()" mat-raised-button color="warn">Reset</button>

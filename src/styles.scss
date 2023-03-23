@@ -10,3 +10,24 @@ body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 	color: #3a405a;
 }
+
+
+
+
+person ,
+location ,
+item {
+	text-decoration: underline;
+}
+
+person {
+	color: coral;
+}
+
+location {
+	color: darkcyan;
+}
+
+item {
+	color: slateblue;
+}

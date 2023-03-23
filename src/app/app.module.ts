@@ -8,11 +8,15 @@ import {MaterialModule} from "./material/material.module";
 import {BlogComponent} from "./blog.component";
 import {HttpClientModule} from "@angular/common/http";
 import {APP_BASE_HREF} from "@angular/common";
+import {SafeHtmlPipe} from "./safe.html.pipe";
+import {SearchComponent} from "./search.component";
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		BlogComponent,
+		SafeHtmlPipe,
+		SearchComponent,
 	],
 	imports: [
 		BrowserModule,
