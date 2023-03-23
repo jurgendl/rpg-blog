@@ -27,9 +27,17 @@
 }
 
 .title {
-	padding: 1rem 0;
 	width: 100%;
 	border-bottom: 1px solid #4f3232;
+	display: flex;
+}
+
+.title h2 {
+	flex-grow: 1;
+}
+
+.title .suffix {
+
 }
 
 section {

@@ -17,16 +17,10 @@ export class BlogComponent implements OnInit {
 	}
 
 	search(searchTerm: string) {
-		console.log('zoek naar: ' + JSON.stringify(searchTerm));
-		const searchTermLC = searchTerm.toLowerCase();
+		const regex = this.blogService.convertToRegex(searchTerm);
+		console.log('regex', searchTerm, regex);
 		this.blogService.getPosts().subscribe(posts => {
-			if (searchTerm && searchTerm.length > 0) {
-				posts = posts.filter(post => {
-					if(!post.plainText)	post.plainText = this.blogService.convertToPlain(post.text).toLowerCase();
-					return post.title.toLowerCase().includes(searchTermLC) || post.plainText.includes(searchTermLC);
-				});
-			}
-			this.posts$ = posts;
+			this.posts$ = searchTerm && searchTerm.length > 0 ? (posts.filter(post => post.title.match(regex) || this.blogService.getPlainText(post).match(regex))) : posts;
 		});
 	}
 }

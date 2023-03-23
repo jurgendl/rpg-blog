@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
@@ -10,6 +10,11 @@ import {HttpClientModule} from "@angular/common/http";
 import {APP_BASE_HREF} from "@angular/common";
 import {SafeHtmlPipe} from "./safe.html.pipe";
 import {SearchComponent} from "./search.component";
+
+//https://stackoverflow.com/questions/46419026/missing-locale-data-for-the-locale-xxx-with-angular
+import { registerLocaleData } from '@angular/common';
+import localeNl from '@angular/common/locales/nl';
+registerLocaleData(localeNl, 'nl');
 
 @NgModule({
 	declarations: [
@@ -26,7 +31,10 @@ import {SearchComponent} from "./search.component";
 		FormsModule,
 		HttpClientModule,
 	],
-	providers: [{provide: APP_BASE_HREF, useValue: '/rpg-blog'}],
+	providers: [
+		{provide: APP_BASE_HREF, useValue: '/rpg-blog'},
+		{provide: LOCALE_ID, useValue: "nl-NL"},//https://stackoverflow.com/questions/46419026/missing-locale-data-for-the-locale-xxx-with-angular
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

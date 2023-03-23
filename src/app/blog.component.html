@@ -8,6 +8,7 @@
 				<section>
 					<div class="title">
 						<h2>{{ post.title }}</h2>
+						<span class="suffix">#{{ post.id }} - {{ post.date | date: 'MMM d, y':'GMT+1':'nl-NL' }}</span>
 					</div>
 					<div class="post mt-4 mb-2" [innerHTML]="post.text | safeHtml"></div>
 				</section>
