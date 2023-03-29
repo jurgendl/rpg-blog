@@ -65,18 +65,13 @@
 	var timerId;
 
 	function doSearch() {
-		console.log("doSearch");
 		var searchBoxDom = document.getElementById('search-box');
 		var searchValue = searchBoxDom.value.toLowerCase();
-		console.log("searchValue", searchValue);
 		var _matchesC = 0;
 		$(".card").hide().filter(function (index) {
 			let tittlc = $(this).attr("astext");
 			if (!tittlc || tittlc.length === 0) {
-				tittlc = $(this).text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
-				console.log("pre",$(this));
-				console.log("inter",$(this).text());
-				console.log("post", tittlc);
+				tittlc = $(this).find('.actual-text').text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
 				$(this).attr("astext", tittlc);
 			}
 			console.log("text", tittlc);
@@ -103,12 +98,11 @@
 
 	function myKeyboard_onChange(inpt) {
 		document.querySelector(".search-box").value = inpt;
-		console.log("Input changed", inpt);
 		throttleFunction(doSearch, 1000);
 	}
 
 	function myKeyboard_onKeyPress(button) {
-		console.log("Button pressed", button);
+		//
 	}
 </script>
 <script>

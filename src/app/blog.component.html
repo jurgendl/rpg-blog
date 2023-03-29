@@ -13,7 +13,7 @@
 			<div class="card-body">
 				<!--<h5 class="card-title">{{ post.title }}</h5>-->
 				<div class="card-text">
-					<div [innerHTML]="post.text | safeHtml"></div>
+					<div class="actual-text" [innerHTML]="post.text | safeHtml"></div>
 					<div class="container-fluid" style="padding: 0">
 						<div class="img-container-grid">
 							<div class="smallsquare" *ngFor="let image of post.images">
