@@ -4,17 +4,133 @@
 	<meta charset="utf-8">
 	<title>RPG Blog</title>
 	<base href="/">
-	<meta http-equiv="Cache-Control" content="must-revalidate, max-age=86400" />
+	<meta http-equiv="Cache-Control" content="must-revalidate, max-age=86400"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+		  integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
+	<style>
+		#search-box {
+			background: rgba(0, 0, 0, .375) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQBJREFUeNqslI0RgyAMhdENWIEVWMEVXIGO0BW6Ah2hHcGOoCPYEewINFzBe9IA9id37w4kfEZesHHOCSYUqSPJML+RJlELDwN1pMHxMZNMkr8RTgyz2YPH5LmtwXpIHkOFmKhIlxowDmYAycKnHAHYcTCsSpXOJCie6YWDnXKLGeHLN2stGaqDsXXrX3GFcYcLrfhjtKEhffQ792gYT2nT6pJDjCw4z7ZGdGipOIqNbXIwFUARmCbKpMfYxsWJBmCEDoW7+gYUTAU2s3HJrK3AJvMLkqGHFLgWXTckm+SfSQexs+tLRqwVfgvjgMsvMAT689S5M/sk/I14kO5PAQYAuk6L1q+EdHMAAAAASUVORK5CYII=) no-repeat 14px 14px;
+			text-indent: 1em;
+			display: inline-block;
+			width: 98%;
+			height: 3.4em;
+			border-radius: 3.4em;
+			outline: none;
+			padding: 1em 2.5em;
+			cursor: pointer;
+			-webkit-appearance: none;
+			font-weight: inherit;
+			font-size: inherit;
+			font-family: inherit;
+			color: #999;
+			vertical-align: baseline;
+			background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAT5JREFUeNqsVLtOw0AQtIMlRJHCEhUVMg398QEUSZnSfILzCXxDPsFu6XAJHWnTcS1lWsprKdmLxtKwvjVBYaTV7cm+udnX5fPb+yyBSmwhVmK/FfPZLyjUPhI8YtXYi23EOovs7PzyevAbsWeoGg5HNUHsCipX8F9TZDOstVgLPxIsxW6w3sHv6dJ2StkLbh6IPtR/AWRfSIET20H9D2U1hfaAgxY2KMagcBSmg9/rmwx0lBqTzGfHoVfVHxXgXzCjHNRHnnHke4vMGc2q0RBR0GSeCLlpLaJGFWKUszVuib32nih7iTFrjXAPyGnQ48c3Gu5AOVlMtMk6NZuf+FiC+AIhV0T+pBQ5ntXceIJKqKko2duJ2TwoLAz5QTVnagJaXWEO8y/wSMuKH9RTJoCTHyNZFidOUEfNu/8WYAAOXUT04MOtlwAAAABJRU5ErkJggg==) 14px 14px no-repeat;
+			cursor: text;
+		}
+
+		#search-box::-webkit-search-cancel-button {
+			-webkit-appearance: none;
+		}
+	</style>
 </head>
-<body class="mat-typography">
+<body class="mat-typography" ng-app="no-unsafe-eval" ng-csp>
+
+<!-- center children horizontally -->
+<div class="container-fluid" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+	<div style="width: 100%;" class="pt-2 pb-2">
+		<input id="search-box" type="search" class="search-box">
+	</div>
+	<div style="width: 100%;" class=""><button class="btn btn-sm btn-secondary" style="margin: 0 1em 1em 1em;" id="search-box-clear">Clear</button></div>
+	<div style="width: 100%; padding: 0 1em .5em 1em;" class=""><span id="search-box-results"></span></div>
+	<div style="width: 100%;" class="pr-4"><div id="keyboard" style="display: none; margin: 0 1em 1em 1em; color: black;" class="simple-keyboard"></div></div>
+	<div style="width: 100%;" class=""><button class="btn btn-sm btn-secondary" style="display: none; margin: 0 1em 1em 1em;" id="keyboard-hide">Hide keyboard</button></div>
+</div>
+
 <app-root></app-root>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+		crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+<script>
+	var timerId;
+
+	function doSearch() {
+		console.log("doSearch");
+		var searchBoxDom = document.getElementById('search-box');
+		var searchValue = searchBoxDom.value.toLowerCase();
+		console.log("searchValue", searchValue);
+		var _matchesC = 0;
+		$(".card").hide().filter(function (index) {
+			let tittlc = $(this).attr("astext");
+			if (!tittlc || tittlc.length === 0) {
+				tittlc = $(this).text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
+				console.log("pre",$(this));
+				console.log("inter",$(this).text());
+				console.log("post", tittlc);
+				$(this).attr("astext", tittlc);
+			}
+			console.log("text", tittlc);
+			const _m = tittlc.includes(searchValue);
+			if (_m) _matchesC++;
+			return _m;
+		}).show();
+		$("#search-box-results").text(_matchesC + " results");
+	}
+
+	var throttleFunction = function (func, delay) {
+		if (timerId) {
+			return;
+		}
+		timerId = setTimeout(function () {
+			func();
+			timerId = undefined;
+		}, delay);
+	}
+	var debounceFunction = function (func, delay) {
+		clearTimeout(timerId);
+		timerId = setTimeout(func, delay);
+	}
+
+	function myKeyboard_onChange(inpt) {
+		document.querySelector(".search-box").value = inpt;
+		console.log("Input changed", inpt);
+		throttleFunction(doSearch, 1000);
+	}
+
+	function myKeyboard_onKeyPress(button) {
+		console.log("Button pressed", button);
+	}
+</script>
+<script>
+	$('#search-box').on('focus', function () {
+		$('#keyboard').show("slow");
+		$("#keyboard-hide").show("slow");
+	});
+	$("#keyboard-hide").on('click', function () {
+		$('#keyboard').hide("slow");
+		$("#keyboard-hide").hide("slow");
+	});
+	$("#search-box-clear").on('click', function () {
+		$('#search-box').val("");
+		doSearch();
+	});
+	const Keyboard = window.SimpleKeyboard.default;
+	const myKeyboard = new Keyboard({
+		onChange: input => myKeyboard_onChange(input),
+		onKeyPress: button => myKeyboard_onKeyPress(button)
+	});
+	var searchBoxDom = document.getElementById('search-box');
+	searchBoxDom.addEventListener('input', () => throttleFunction(doSearch, 1000));
+</script>
 </body>
 </html>

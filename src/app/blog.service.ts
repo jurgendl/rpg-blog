@@ -8,6 +8,8 @@ export interface Post {
 	text: string;
 	plainText: string;
 	date: Date; /* JSON.stringify({'now': new Date()}) */
+	extra: string;
+	images: string[];
 }
 
 @Injectable({
