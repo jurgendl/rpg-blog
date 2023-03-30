@@ -60,24 +60,33 @@
 		crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 <script>
+	var searchBoxDom = document.getElementById('search-box');
+
 	var timerId;
 
+	function textFromElement(element) {
+		let textFromElement = element.attr("astext");
+		if (!textFromElement) {
+			textFromElement = element.find('.actual-text').text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
+			element.attr("astext", textFromElement);
+			console.log("text", textFromElement);
+		}
+		return textFromElement;
+	}
+
 	function doSearch() {
-		var searchBoxDom = document.getElementById('search-box');
 		var searchValue = searchBoxDom.value.toLowerCase();
-		var _matchesC = 0;
-		$(".card").hide().filter(function (index) {
-			let tittlc = $(this).attr("astext");
-			if (!tittlc || tittlc.length === 0) {
-				tittlc = $(this).find('.actual-text').text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
-				$(this).attr("astext", tittlc);
-			}
-			console.log("text", tittlc);
-			const _m = tittlc.includes(searchValue);
-			if (_m) _matchesC++;
-			return _m;
-		}).show();
-		$("#search-box-results").text(_matchesC + " results");
+		let _visible = 0;
+		$(".card").filter(function(index) {
+			const _v = textFromElement($(this)).includes(searchValue);
+			console.log(index + "->" + _v);
+			if(_v) _visible++;
+			return _v;
+		}).show("slow");
+		$(".card").filter(function(index) {
+			return !textFromElement($(this)).includes(searchValue);
+		}).hide("slow");
+		$("#search-box-results").text(_visible + " results");
 	}
 
 	var throttleFunction = function (func, delay) {
@@ -102,8 +111,15 @@
 	function myKeyboard_onKeyPress(button) {
 		//
 	}
-</script>
-<script>
+
+	const Keyboard = window.SimpleKeyboard.default;
+	const myKeyboard = new Keyboard({
+		onChange: input => myKeyboard_onChange(input),
+		onKeyPress: button => myKeyboard_onKeyPress(button)
+	});
+
+	searchBoxDom.addEventListener('input', () => throttleFunction(doSearch, 1000));
+
 	$('#search-box').on('focus', function () {
 		$('#keyboard').show("slow");
 		$("#keyboard-hide").show("slow");
@@ -114,15 +130,9 @@
 	});
 	$("#search-box-clear").on('click', function () {
 		$('#search-box').val("");
+		myKeyboard.clearInput();
 		doSearch();
 	});
-	const Keyboard = window.SimpleKeyboard.default;
-	const myKeyboard = new Keyboard({
-		onChange: input => myKeyboard_onChange(input),
-		onKeyPress: button => myKeyboard_onKeyPress(button)
-	});
-	var searchBoxDom = document.getElementById('search-box');
-	searchBoxDom.addEventListener('input', () => throttleFunction(doSearch, 1000));
 </script>
 </body>
 </html>
