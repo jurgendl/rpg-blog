@@ -37,19 +37,35 @@
 		#search-box::-webkit-search-cancel-button {
 			-webkit-appearance: none;
 		}
+
+		.selected {
+			background-color: yellow;
+		}
 	</style>
 </head>
 <body class="mat-typography" ng-app="no-unsafe-eval" ng-csp>
 
 <!-- center children horizontally -->
-<div class="container-fluid" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+<div class="container-fluid"
+	 style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
 	<div style="width: 100%;" class="pt-2 pb-2">
 		<input id="search-box" type="search" class="search-box">
 	</div>
-	<div style="width: 100%;" class=""><button class="btn btn-sm btn-secondary" style="margin: 0 1em 1em 1em;" id="search-box-clear">Clear</button></div>
+	<div style="width: 100%;" class="">
+		<button class="btn btn-sm btn-secondary" style="margin: 0 1em 1em 1em;" id="search-box-clear">Clear</button>
+	</div>
 	<div style="width: 100%; padding: 0 1em .5em 1em;" class=""><span id="search-box-results"></span></div>
-	<div style="width: 100%;" class="pr-4"><div id="keyboard" style="display: none; margin: 0 1em 1em 1em; color: black;" class="simple-keyboard"></div></div>
-	<div style="width: 100%;" class=""><button class="btn btn-sm btn-secondary" style="display: none; margin: 0 1em 1em 1em;" id="keyboard-hide">Hide keyboard</button></div>
+	<span style="display: none;">
+		<div style="width: 100%;" class="pr-4">
+			<div id="keyboard" style="display: none; margin: 0 1em 1em 1em; color: black;"
+				 class="simple-keyboard"></div>
+		</div>
+		<div style="width: 100%;" class="">
+			<button class="btn btn-sm btn-secondary" style="display: none; margin: 0 1em 1em 1em;" id="keyboard-hide">Hide
+				keyboard
+			</button>
+		</div>
+	</span>
 </div>
 
 <app-root></app-root>
@@ -61,31 +77,94 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 <script>
 	var searchBoxDom = document.getElementById('search-box');
-
 	var timerId;
 
-	function textFromElement(element) {
-		let textFromElement = element.attr("astext");
-		if (!textFromElement) {
-			textFromElement = element.find('.actual-text').text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
-			element.attr("astext", textFromElement);
-			console.log("text", textFromElement);
+	function processNode(index, node, regex) {
+		console.log("processNode: ", index, node.innerHTML);
+		const childNodes = node.childNodes;
+		for (let i = 0; i < childNodes.length; i++) {
+			const childNode = childNodes[i];
+			if (childNode.nodeType === Node.TEXT_NODE) {
+				console.log("childNode.textContent: ", childNode.textContent);
+				const replaced = childNode.textContent.replace(regex, '<span class="selected">$1</span>');
+				if (replaced !== childNode.textContent) {
+					console.log("childNode: ", childNode);
+					const newNode = document.createElement('span');
+					newNode.innerHTML = replaced;
+					childNode.parentNode.replaceChild(newNode, childNode);
+					console.log("replaced: ", replaced);
+					console.log("childNode*: ", newNode);
+					console.log("childNode.innerHTML: ", newNode.innerHTML);
+				}
+			} else if (childNode.nodeType === Node.ELEMENT_NODE) {
+				const tagName = childNode.tagName.toLowerCase();
+				if (tagName !== 'script' && tagName !== 'style') {
+					processNode(index, childNode, regex);
+				}
+			} else {
+				console.log("processNode: ", index, "unknown node type", childNode.nodeType);
+			}
 		}
-		return textFromElement;
+	}
+
+	function mark(index, element, searchValues) {
+		restore(index, element);
+		const regex = new RegExp('(' + searchValues.join('|') + ')', 'gi');
+		console.log("mark: ", index, searchValues, regex);
+		processNode(index, element.find('.actual-text')[0], regex);
+	}
+
+	function textFromElement(index, element) {
+		let astext = element.attr("astext");
+		if (!astext) {
+			astext = element.find('.actual-text').text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
+			let asoriginaltext = element.find('.actual-text').html();
+			element.attr("asoriginaltext", asoriginaltext);
+			element.attr("astext", astext);
+		}
+		return astext;
+	}
+
+	function restore(index, element) {
+		console.log("restore: ", index);
+		element.find('.actual-text').html(element.attr("asoriginaltext"));
+	}
+
+	function containsWord(index, sentence, wordsToCheck) {
+		for (let i = 0; i < wordsToCheck.length; i++) {
+			if (sentence.includes(wordsToCheck[i])) {
+				console.log("containsWord: ", index, wordsToCheck, true);
+				return true;
+			}
+		}
+		console.log("containsWord: ", index, wordsToCheck, false);
+		return false;
 	}
 
 	function doSearch() {
-		var searchValue = searchBoxDom.value.toLowerCase();
+		console.log("doSearch: ", searchBoxDom.value);
 		let _visible = 0;
-		$(".card").filter(function(index) {
-			const _v = textFromElement($(this)).includes(searchValue);
-			console.log(index + "->" + _v);
-			if(_v) _visible++;
-			return _v;
-		}).show("slow");
-		$(".card").filter(function(index) {
-			return !textFromElement($(this)).includes(searchValue);
-		}).hide("slow");
+		if (!searchBoxDom.value || searchBoxDom.value.trim().length == 0) {
+			$(".card").each(function (index) {
+				_visible++;
+				restore(index, $(this));
+				$(this).show("slow");
+			});
+		} else {
+			var searchValues = searchBoxDom.value.toLowerCase().trim().split(" ");
+			$(".card").each(function (index) {
+				const _v = containsWord(index, textFromElement(index, $(this)), searchValues);
+				//console.log(index + "->" + _v);
+				if (_v) {
+					_visible++;
+					mark(index, $(this), searchValues);
+					$(this).show("slow");
+				} else {
+					restore(index, $(this));
+					$(this).hide("slow");
+				}
+			});
+		}
 		$("#search-box-results").text(_visible + " results");
 	}
 
@@ -119,19 +198,22 @@
 	});
 
 	searchBoxDom.addEventListener('input', () => throttleFunction(doSearch, 1000));
+	searchBoxDom.addEventListener('paste', () => throttleFunction(doSearch, 0));
 
 	$('#search-box').on('focus', function () {
 		$('#keyboard').show("slow");
 		$("#keyboard-hide").show("slow");
 	});
+
 	$("#keyboard-hide").on('click', function () {
 		$('#keyboard').hide("slow");
 		$("#keyboard-hide").hide("slow");
 	});
+
 	$("#search-box-clear").on('click', function () {
 		$('#search-box').val("");
 		myKeyboard.clearInput();
-		doSearch();
+		throttleFunction(doSearch, 0);
 	});
 </script>
 </body>
