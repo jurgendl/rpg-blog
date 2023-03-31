@@ -13,7 +13,13 @@ export class BlogComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.blogService.getPosts().subscribe(posts => this.posts$ = posts);
+		this.blogService.getPosts().subscribe(posts => {
+			posts.forEach(post => {
+				this.blogService.getPlainText(post);
+			});
+			this.posts$ = posts;
+			localStorage.setItem('posts', JSON.stringify(posts));
+		});
 	}
 
 	search(searchTerm: string) {

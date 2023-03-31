@@ -13,10 +13,12 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 		  integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+		  integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=="
+		  crossorigin="anonymous" referrerpolicy="no-referrer"/>
 	<style>
 		#search-box {
-			background: rgba(0, 0, 0, .375) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQBJREFUeNqslI0RgyAMhdENWIEVWMEVXIGO0BW6Ah2hHcGOoCPYEewINFzBe9IA9id37w4kfEZesHHOCSYUqSPJML+RJlELDwN1pMHxMZNMkr8RTgyz2YPH5LmtwXpIHkOFmKhIlxowDmYAycKnHAHYcTCsSpXOJCie6YWDnXKLGeHLN2stGaqDsXXrX3GFcYcLrfhjtKEhffQ792gYT2nT6pJDjCw4z7ZGdGipOIqNbXIwFUARmCbKpMfYxsWJBmCEDoW7+gYUTAU2s3HJrK3AJvMLkqGHFLgWXTckm+SfSQexs+tLRqwVfgvjgMsvMAT689S5M/sk/I14kO5PAQYAuk6L1q+EdHMAAAAASUVORK5CYII=) no-repeat 14px 14px;
+			/*background: rgba(0, 0, 0, .375) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQBJREFUeNqslI0RgyAMhdENWIEVWMEVXIGO0BW6Ah2hHcGOoCPYEewINFzBe9IA9id37w4kfEZesHHOCSYUqSPJML+RJlELDwN1pMHxMZNMkr8RTgyz2YPH5LmtwXpIHkOFmKhIlxowDmYAycKnHAHYcTCsSpXOJCie6YWDnXKLGeHLN2stGaqDsXXrX3GFcYcLrfhjtKEhffQ792gYT2nT6pJDjCw4z7ZGdGipOIqNbXIwFUARmCbKpMfYxsWJBmCEDoW7+gYUTAU2s3HJrK3AJvMLkqGHFLgWXTckm+SfSQexs+tLRqwVfgvjgMsvMAT689S5M/sk/I14kO5PAQYAuk6L1q+EdHMAAAAASUVORK5CYII=) no-repeat 14px 14px;*/
 			text-indent: 1em;
 			display: inline-block;
 			width: 98%;
@@ -49,22 +51,27 @@
 <!-- center children horizontally -->
 <div class="container-fluid"
 	 style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-	<div style="width: 100%;" class="pt-2 pb-2">
-		<input style="display: inline-block; width: 80%;" id="search-box" type="search" class="form-control search-box">
-		<button style="display: inline-block;" class="btn btn-sm btn-secondary" style="margin: 0 1em 1em 1em;" id="search-box-clear"><i class="fa-fw far fa-trash-alt"></i></button>
-	</div>
-	<div style="width: 100%; padding: 0 1em .5em 1em;" class="">
-		<div style="height: 20px;" id="search-box-results">? results</div>
+	<div style="width: 100%; text-align: center" class="pt-2 pb-2">
+		<div style="display: inline-block; width: 80%;">
+			<input style="display: inline-block; width: 80%;" id="search-box" type="search" class="form-control search-box">
+			<button style="display: inline-block;" class="btn btn-sm btn-secondary" style="margin: 0 1em 1em 1em;"
+					id="search-box-clear">
+				<i class="fa-fw far fa-trash-alt"></i>
+			</button>
+		</div>
 	</div>
 	<div class="kb">
 		<div style="width: 100%;" class="">
 			<div id="keyboard" style="display: none; color: black;" class="simple-keyboard"></div>
 		</div>
 		<div style="width: 100%;" class="">
-			<button class="btn btn-sm btn-secondary" style="display: none; width: 100%;" id="keyboard-hide">Hide
-				keyboard
+			<button class="btn btn-sm btn-secondary" style="display: none; width: 100%;" id="keyboard-hide">
+				<i class="far fa-eye-slash"></i>
 			</button>
 		</div>
+	</div>
+	<div style="width: 100%; padding: 0 1em .5em 1em; text-align: center;" class="mt-2">
+		<div class="badge badge-info" style="display: inline-block;" id="search-box-results">? results</div>
 	</div>
 </div>
 
@@ -115,19 +122,21 @@
 	}
 
 	function textFromElement(index, element) {
-		let astext = element.attr("astext");
+		return JSON.parse(localStorage.getItem('posts'))[index].plainText;
+		/*let astext = element.attr("astext");
 		if (!astext) {
 			astext = element.find('.actual-text').text().toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
 			let asoriginaltext = element.find('.actual-text').html();
 			element.attr("asoriginaltext", asoriginaltext);
 			element.attr("astext", astext);
 		}
-		return astext;
+		return astext;*/
 	}
 
 	function restore(index, element) {
 		console.log("restore: ", index);
-		element.find('.actual-text').html(element.attr("asoriginaltext"));
+		/*element.find('.actual-text').html(element.attr("asoriginaltext"));*/
+		element.find('.actual-text').html(JSON.parse(localStorage.getItem('posts'))[index].text);
 	}
 
 	function containsWord(index, sentence, wordsToCheck) {
