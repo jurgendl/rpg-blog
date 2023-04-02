@@ -21,7 +21,7 @@ export class BlogService {
 	}
 
 	//https://dev.to/sanchithasr/3-ways-to-convert-html-text-to-plain-text-52l8
-	convertToPlain(html: string) {
+	convertToPlainTextInner(html: string) {
 		// Create a new div element
 		const tempDivElement = document.createElement("div");
 		// Set the HTML content with the given value
@@ -30,15 +30,33 @@ export class BlogService {
 		return tempDivElement.textContent || tempDivElement.innerText || "";
 	}
 
-	getPlainText(post: Post): string {
-		if (!post.plainText) {
-			post.plainText = this.convertToPlain(post.text).toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
-		}
-		return post.plainText;
+	convertToPlainText(html: string) {
+		// This is a TypeScript code that defines a function that takes an HTML string as input, converts it to plain text, removes redundant white spaces, and returns the resulting plain text as a string.
+		//
+		// 	Here's what the code does, line by line:
+		//
+		// const s: string = this.convertToPlainTextInner(html);
+		// The input HTML string is passed to the convertToPlainTextInner method to convert it into a plain text string, which is then stored in the constant s. The const keyword is used to define an immutable variable that cannot be reassigned.
+		//
+		// 	return s.toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
+		// The s string is converted to lowercase using the toLowerCase() method, and then it undergoes several transformations using the replace() method with regular expressions:
+		//
+		// 	/\t/g, ' ' replaces all tab characters with a single space.
+		// /(r\n|r|\n)/g, ' ' replaces all new line characters with a single space.
+		// / +(?= )/g, '' replaces all multiple spaces with a single space.
+		// 	Finally, the trim() method removes any leading and trailing white spaces from the resulting plain text string.
+		//
+		// 	In summary, this code takes an HTML string, converts it to plain text, and returns the resulting string with redundant white spaces removed.
+		const s: string = this.convertToPlainTextInner(html);
+		return s.toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
 	}
 
 	getPlainTextFor(index: number): string {
 		return this.getPlainText(this.getPostFromStorage()[index]);
+	}
+
+	getPlainText(post: Post): string {
+		return post.plainText;
 	}
 
 	convertToRegex(term: string): RegExp {
@@ -46,8 +64,8 @@ export class BlogService {
 		let regexTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 		// Replace * with .*
 		regexTerm = regexTerm.replace(/\*/g, '.*');
-		//
-		regexTerm = '(' + regexTerm.split(" ").join('|') + ')';
+		// split up into words keeping words between double quotes together, then join with | to create regex
+		regexTerm = '(' + regexTerm.match(/("[^"]+"|\w+)/g)!.join('|') + ')';
 		// Create regular expression object with global and case-insensitive flags
 		return new RegExp(regexTerm, 'gi');
 	}
@@ -90,7 +108,7 @@ export class BlogService {
 
 	mark(index: number, node: JQuery<HTMLElement>, regex: RegExp) {
 		this.restore(index, node);
-		this.processNode(index, (node as any).find('.actual-text')[0], regex);
+		this.processNode(index, node.find('.actual-text')[0], regex);
 	}
 
 	getPostFromStorage(): Post[] {
@@ -100,31 +118,30 @@ export class BlogService {
 
 	restore(index: number, node: JQuery<HTMLElement>) {
 		const s = this.getPostFromStorage()[index].text;
-		(node as any).find('.actual-text')[0].html(s);
+		node.find('.actual-text').html(s);
 	}
 
-	doSearch() {
+	doSearch(self: any) {
 		const searchBoxDom = document.getElementById('search-box') as HTMLInputElement;
-		const _this = this;
 		let _visible = 0;
 		if (!searchBoxDom.value || searchBoxDom.value.trim().length == 0) {
 			$(".card").each(function (index) {
 				_visible++;
 				const element = $(this) as JQuery<HTMLElement>;
-				_this.restore(index, element);
+				self.restore(index, element);
 				$(this).show("slow");
 			});
 		} else {
-			const regex = this.convertToRegex(searchBoxDom.value);
+			const regex = self.convertToRegex(searchBoxDom.value);
 			$(".card").each(function (index) {
 				const element = $(this) as JQuery<HTMLElement>;
-				const _v = _this.contains(_this.getPlainTextFor(index), regex);
+				const _v = self.contains(self.getPlainTextFor(index), regex);
 				if (_v) {
 					_visible++;
-					_this.mark(index, element, regex);
+					self.mark(index, element, regex);
 					element.show("slow");
 				} else {
-					_this.restore(index, element);
+					self.restore(index, element);
 					element.hide("slow");
 				}
 			});
@@ -145,18 +162,20 @@ export class BlogService {
 		}, delay);
 	}
 
+	myKeyboard: any;
+
 	init() {
 		const searchBoxDom = document.getElementById('search-box') as HTMLInputElement;
-		const _this = this;
+		const self = this;
 
-		searchBoxDom.addEventListener('input', () => _this.throttleFunction(_this.doSearch, 1000));
-		searchBoxDom.addEventListener('paste', () => _this.throttleFunction(_this.doSearch, 0));
+		searchBoxDom.addEventListener('input', () => self.throttleFunction(() => self.doSearch(self), 1000));
+		searchBoxDom.addEventListener('paste', () => self.throttleFunction(() => self.doSearch(self), 0));
 
 		const Keyboard = (window as any).SimpleKeyboard.default;
-		const myKeyboard = new Keyboard({
+		self.myKeyboard = new Keyboard({
 			onChange: function (input: string) {
 				(document.querySelector(".search-box") as HTMLInputElement).value = input;
-				_this.throttleFunction(_this.doSearch, 1000);
+				self.throttleFunction(() => self.doSearch(self), 1000);
 			},
 			onKeyPress: function (button: any) {
 				//
@@ -175,8 +194,18 @@ export class BlogService {
 
 		$("#search-box-clear").on('click', function () {
 			$('#search-box').val("");
-			(myKeyboard as any).clearInput();
-			_this.throttleFunction(_this.doSearch, 0);
+			self.myKeyboard.clearInput();
+			self.throttleFunction(() => self.doSearch(self), 0);
+		});
+	}
+
+	initOnClickActualText() {
+		const self = this;
+		$(".actual-text").on('click', function () {
+			console.log("actual-text: ", $(this).text());
+			$('#search-box').val($(this).text());
+			self.myKeyboard.setInput($(this).text());
+			self.throttleFunction(() => self.doSearch(self), 0);
 		});
 	}
 }

@@ -1,21 +1,28 @@
 <div class="posts-component">
-
+	<!--
 	<div style="display: none;" class="container-fluid">
 		<search-component (searchEmitter)="search($event)"></search-component>
 	</div>
+	-->
 
 	<div class="container-fluid">
 		<div class="card" *ngFor="let post of posts$">
 			<div class="card-header">
 				<span class="post-header-tile">{{ post.title }}</span>
-				<span class="post-header-suffix">#{{ post.id }} - {{ post.date | date: 'd MMMM y':'GMT+1':'nl-NL' }}
-					- {{ post.extra }}</span>
+				<span class="post-header-suffix">
+					<span>#{{ post.id }}</span>
+					-
+					<span>{{ post.date | date: 'd MMMM y':'GMT+1':'nl-NL' }}</span>
+					-
+					<span>{{ post.extra }}</span>
+				</span>
 			</div>
 			<div class="card-body">
 				<!--<h5 class="card-title">{{ post.title }}</h5>-->
 				<div class="card-text">
 					<div class="actual-text" [innerHTML]="post.text | safeHtml"></div>
-					<div class="container-fluid" style="padding: 0">
+					<div *ngIf="post.images != null && post.images.length > 0" class="container-fluid"
+						 style="padding: 0; margin-top: 1.5em;">
 						<div class="image-grid">
 							<a href="{{ image }}" target="_blank" *ngFor="let image of post.images">
 								<img [src]="image" class="img-thumbnail">
