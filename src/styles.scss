@@ -30,7 +30,7 @@ item {
 }
 
 .posts-component {
-	padding: 2em 1em 2em 1em;
+	padding: 2em 1em;
 	margin: 0 auto 1em auto;
 	/*max-width: 1024px;*/
 }
@@ -69,12 +69,11 @@ item {
 	/*background: rgba(0, 0, 0, .375) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQBJREFUeNqslI0RgyAMhdENWIEVWMEVXIGO0BW6Ah2hHcGOoCPYEewINFzBe9IA9id37w4kfEZesHHOCSYUqSPJML+RJlELDwN1pMHxMZNMkr8RTgyz2YPH5LmtwXpIHkOFmKhIlxowDmYAycKnHAHYcTCsSpXOJCie6YWDnXKLGeHLN2stGaqDsXXrX3GFcYcLrfhjtKEhffQ792gYT2nT6pJDjCw4z7ZGdGipOIqNbXIwFUARmCbKpMfYxsWJBmCEDoW7+gYUTAU2s3HJrK3AJvMLkqGHFLgWXTckm+SfSQexs+tLRqwVfgvjgMsvMAT689S5M/sk/I14kO5PAQYAuk6L1q+EdHMAAAAASUVORK5CYII=) no-repeat 14px 14px;*/
 	text-indent: 1em;
 	display: inline-block;
-	width: 98%;
+	width: 95%;
 	height: 3.4em;
 	border-radius: 3.4em;
 	outline: none;
 	padding: 1em 2.5em;
-	cursor: pointer;
 	font-weight: inherit;
 	font-size: inherit;
 	font-family: inherit;

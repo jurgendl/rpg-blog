@@ -62,12 +62,17 @@ export class BlogService {
 	convertToRegex(term: string): RegExp {
 		// Escape special characters in the search term
 		let regexTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		console.log("regexTerm: ", regexTerm);
 		// Replace * with .*
 		regexTerm = regexTerm.replace(/\*/g, '.*');
+		console.log("regexTerm: ", regexTerm);
 		// split up into words keeping words between double quotes together, then join with | to create regex
-		regexTerm = '(' + regexTerm.match(/("[^"]+"|\w+)/g)!.join('|') + ')';
+		regexTerm = '(' + regexTerm.match(/("[^"]+"|\w+)/g)!.map( wordOrSentence=> wordOrSentence.replace(/"/g, '') ).join('|') + ')';
+		console.log("regexTerm: ", regexTerm);
 		// Create regular expression object with global and case-insensitive flags
-		return new RegExp(regexTerm, 'gi');
+		const regex = new RegExp(regexTerm, 'gi');
+		console.log("regex: ", regex);
+		return regex;
 	}
 
 	getPosts(): Observable<Post[]> {
