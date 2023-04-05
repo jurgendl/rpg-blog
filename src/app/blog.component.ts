@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
 import $ from "jquery";
@@ -18,7 +18,7 @@ export interface Post {
 	templateUrl: './blog.component.html',
 	styleUrls: ['./blog.component.scss'],
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewChecked {
 	posts$!: Post[];
 	timerId: any;
 	myKeyboard: any;
@@ -226,9 +226,22 @@ export class BlogComponent implements OnInit {
 		});
 	}
 
-	initOnClickActualText() {
+	ngAfterViewChecked(): void {
 		const self = this;
-		$(".actual-text").on('click', function () {
+
+		$(".actual-text person").on('click', function () {
+			console.log("actual-text: ", $(this).text());
+			$('#search-box').val($(this).text());
+			self.myKeyboard.setInput($(this).text());
+			self.throttleFunction(() => self.doSearch(self), 0);
+		});
+		$(".actual-text location").on('click', function () {
+			console.log("actual-text: ", $(this).text());
+			$('#search-box').val($(this).text());
+			self.myKeyboard.setInput($(this).text());
+			self.throttleFunction(() => self.doSearch(self), 0);
+		});
+		$(".actual-text item").on('click', function () {
 			console.log("actual-text: ", $(this).text());
 			$('#search-box').val($(this).text());
 			self.myKeyboard.setInput($(this).text());

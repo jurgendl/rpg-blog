@@ -1,5 +1,11 @@
 /* ------------------------------------ */
 
+html body {
+	color: #858796;
+}
+
+/* ------------------------------------ */
+
 person,
 location,
 item {
@@ -87,8 +93,10 @@ item {
 	-webkit-appearance: none;
 }*/
 
-.selected {
-	background-color: #14ff0047;
+.selected ,
+::selection {
+	color: black;
+	background-color: #ffe959;
 }
 
 /* ------------------------------------ */
