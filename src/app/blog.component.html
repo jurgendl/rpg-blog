@@ -21,12 +21,14 @@
 				<!--<h5 class="card-title">{{ post.title }}</h5>-->
 				<div class="card-text">
 					<div class="actual-text" [innerHTML]="post.text | safeHtml"></div>
-					<div *ngIf="post.images != null && post.images.length > 0" class="container-fluid"
-						 style="padding: 0; margin-top: 1.5em;">
-						<div class="image-grid">
-							<a href="{{ image }}" target="_blank" *ngFor="let image of post.images">
-								<img [src]="image" class="img-thumbnail">
-							</a>
+					<div id="blazyContainer" bLazyLoadImages [bLazyOffset]="300" style="overflow: scroll;">
+						<div *ngIf="post.images != null && post.images.length > 0" class="container-fluid"
+							 style="padding: 0; margin-top: 1.5em;">
+							<div class="image-grid">
+								<a href="{{ image }}" target="_blank" *ngFor="let image of post.images">
+									<img [attr.data-src]="image" class="b-lazy img-thumbnail">
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>

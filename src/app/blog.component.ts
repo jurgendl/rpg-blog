@@ -21,7 +21,7 @@ export interface Post {
 })
 export class BlogComponent implements OnInit, AfterViewChecked {
 	posts$!: Post[];
-	timerId!: any;
+	timerId: number | undefined;
 	myKeyboard!: SimpleKeyboard;
 
 	/*search(searchTerm: string) {
