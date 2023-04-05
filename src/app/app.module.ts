@@ -9,19 +9,17 @@ import {BlogComponent} from "./blog.component";
 import {HttpClientModule} from "@angular/common/http";
 import {APP_BASE_HREF} from "@angular/common";
 import {SafeHtmlPipe} from "./safe.html.pipe";
-import {SearchComponent} from "./search.component";
 
 //https://stackoverflow.com/questions/46419026/missing-locale-data-for-the-locale-xxx-with-angular
 import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
-registerLocaleData(localeNl, 'nl');
+registerLocaleData(localeNl, 'nl-NL');
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		BlogComponent,
 		SafeHtmlPipe,
-		SearchComponent,
 	],
 	imports: [
 		BrowserModule,
