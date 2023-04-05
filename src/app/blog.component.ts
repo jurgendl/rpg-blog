@@ -2,6 +2,7 @@ import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
 import $ from "jquery";
+import {SimpleKeyboard} from 'simple-keyboard';
 
 export interface Post {
 	id: number;
@@ -20,8 +21,8 @@ export interface Post {
 })
 export class BlogComponent implements OnInit, AfterViewChecked {
 	posts$!: Post[];
-	timerId: any;
-	myKeyboard: any;
+	timerId!: any;
+	myKeyboard!: SimpleKeyboard;
 
 	/*search(searchTerm: string) {
 		const regex = this.blogService.convertToRegex(searchTerm);
@@ -40,7 +41,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 				post.plainText = this.convertToPlainText(post.text);
 			});
 			this.posts$ = posts;
-			localStorage.setItem('posts', JSON.stringify(posts));
+			//localStorage.setItem('posts', JSON.stringify(posts));
 		});
 		this.init();
 	}
@@ -72,8 +73,8 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 		// 	Finally, the trim() method removes any leading and trailing white spaces from the resulting plain text string.
 		//
 		// 	In summary, this code takes an HTML string, converts it to plain text, and returns the resulting string with redundant white spaces removed.
-		const s: string = this.convertToPlainTextInner(html);
-		return s.toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
+		const toPlainTextInner: string = this.convertToPlainTextInner(html);
+		return toPlainTextInner.toLowerCase().replace(/\t/g, ' ').replace(/(\r\n|\r|\n)/g, ' ').replace(/ +(?= )/g, '').trim();
 	}
 
 	getPlainTextFor(index: number): string {
@@ -181,25 +182,28 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 	}
 
 	throttleFunction(func: Function, delay: number) {
-		const _this = this;
+		const self = this;
+
 		if (this.timerId) {
 			return;
 		}
 		this.timerId = setTimeout(function () {
 			func();
-			_this.timerId = undefined;
+			self.timerId = undefined;
 		}, delay);
 	}
 
 	init() {
-		const searchBoxDom = document.getElementById('search-box') as HTMLInputElement;
 		const self = this;
 
+		const searchBoxDom = document.getElementById('search-box') as HTMLInputElement;
 		searchBoxDom.addEventListener('input', () => self.throttleFunction(() => self.doSearch(self), 1000));
 		searchBoxDom.addEventListener('paste', () => self.throttleFunction(() => self.doSearch(self), 0));
 
-		const Keyboard = (window as any).SimpleKeyboard.default;
-		self.myKeyboard = new Keyboard({
+		// https://hodgef.com/simple-keyboard/demos/
+		// https://www.npmjs.com/package/simple-keyboard
+		//const Keyboard = (window as any).SimpleKeyboard.default as SimpleKeyboard;
+		self.myKeyboard = new SimpleKeyboard({
 			onChange: function (input: string) {
 				(document.querySelector(".search-box") as HTMLInputElement).value = input;
 				self.throttleFunction(() => self.doSearch(self), 1000);
