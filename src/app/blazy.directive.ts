@@ -3,6 +3,7 @@ import {Directive, ElementRef, Input} from "@angular/core";
 import * as Blazy from "blazy";
 
 // https://gist.github.com/davidmarquis/a702508f86679aa5a7b899a3499fbd15
+// https://github.com/dinbror/blazy
 /**
  * Directive to setup lazy image loading using bLazy.
  * Apply the directive on a container element that is a parent of `img` elements configured for bLazy.

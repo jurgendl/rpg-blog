@@ -22,8 +22,7 @@
 				<div class="card-text">
 					<div class="actual-text" [innerHTML]="post.text | safeHtml"></div>
 					<div id="blazyContainer" bLazyLoadImages [bLazyOffset]="300" style="">
-						<div *ngIf="post.images != null && post.images.length > 0" class="container-fluid"
-							 style="padding: 0; margin-top: 1.5em;">
+						<div *ngIf="post.images != null && post.images.length > 0" class="container-fluid" style="padding: 0; margin-top: 1.5em;">
 							<div class="image-grid">
 								<a href="{{ image }}" target="_blank" *ngFor="let image of post.images">
 									<img [attr.data-src]="image" class="b-lazy img-thumbnail">

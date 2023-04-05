@@ -62,6 +62,16 @@ item {
 
 /* ------------------------------------ */
 
+/* https://css-tricks.com/almanac/properties/g/grid-template-columns/ */
+/*
+display: grid;: Sets the display property to grid, which allows you to create a grid container and specify its grid items.
+
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));: Sets the columns of the grid. The repeat() function creates a repeated pattern of columns. The auto-fit value tells the browser to automatically fill up the available space with as many columns as possible, without overflowing the container. The minmax() function sets the minimum and maximum size of the columns. In this case, the minimum size is set to 250 pixels and the maximum size is set to 1fr, which means that the column will take up as much available space as it can.
+
+gap: 10px;: Sets the gap or spacing between the grid items. In this case, it is set to 10 pixels.
+
+Overall, this style creates a grid layout with columns that will automatically adjust to fit the available space, with a minimum size of 250 pixels and a maximum size that expands to fill the available space. The images within the grid will be spaced out by 10 pixels.
+*/
 .image-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* adjust the minmax value to your liking */
