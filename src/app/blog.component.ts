@@ -226,6 +226,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 		});
 	}
 
+	// https://stackoverflow.com/questions/52715190/running-a-function-after-the-dom-of-an-angular-component-has-changed-similar-to
 	ngAfterViewChecked(): void {
 		const self = this;
 
