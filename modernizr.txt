@@ -1,0 +1,11 @@
+https://www.npmjs.com/package/modernizr
+https://www.npmjs.com/package/@types/modernizr
+
+https://modernizr.com/
+npm install -g modernizr --save-dev
+modernizr -c modernizr-config.json
+
+https://github.com/DefinitelyTyped/DefinitelyTyped/blob/4869992bc079b88280b9ff91213528904109e8ae/modernizr/index.d.ts
+
+npm install -g modernizr --save-dev
+import * as Modernizr from 'modernizr';

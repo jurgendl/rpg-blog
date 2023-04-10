@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
 import $ from "jquery";
 import {SimpleKeyboard} from 'simple-keyboard';
+import * as Modernizr from 'modernizr';
 
 export interface Post {
 	id: number;
@@ -22,7 +23,8 @@ export interface Post {
 export class BlogComponent implements OnInit, AfterViewChecked {
 	posts$!: Post[];
 	timerId: number | undefined;
-	myKeyboard!: SimpleKeyboard;
+	myKeyboard: SimpleKeyboard | undefined;
+	onMobile: boolean = false;
 
 	/*search(searchTerm: string) {
 		const regex = this.blogService.convertToRegex(searchTerm);
@@ -36,6 +38,8 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 	}
 
 	ngOnInit(): void {
+		this.onMobile = Modernizr.touchevents;
+
 		this.getPosts().subscribe(posts => {
 			posts.forEach(post => {
 				post.plainText = this.convertToPlainText(post.text);
@@ -203,15 +207,17 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 		// https://hodgef.com/simple-keyboard/demos/
 		// https://www.npmjs.com/package/simple-keyboard
 		//const Keyboard = (window as any).SimpleKeyboard.default as SimpleKeyboard;
-		self.myKeyboard = new SimpleKeyboard({
-			onChange: function (input: string) {
-				(document.querySelector(".search-box") as HTMLInputElement).value = input;
-				self.throttleFunction(() => self.doSearch(self), 1000);
-			},
-			onKeyPress: function (button: any) {
-				//
-			}
-		});
+		if(!this.onMobile) {
+			self.myKeyboard = new SimpleKeyboard({
+				onChange: function (input: string) {
+					(document.querySelector(".search-box") as HTMLInputElement).value = input;
+					self.throttleFunction(() => self.doSearch(self), 1000);
+				},
+				onKeyPress: function (button: any) {
+					//
+				}
+			});
+		}
 
 		$('#search-box').on('focus', function () {
 			$('#keyboard').show("slow");
@@ -225,7 +231,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
 		$("#search-box-clear").on('click', function () {
 			$('#search-box').val("");
-			self.myKeyboard.clearInput();
+			if(self.myKeyboard) self.myKeyboard.clearInput();
 			self.throttleFunction(() => self.doSearch(self), 0);
 		});
 	}
@@ -237,19 +243,19 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 		$(".actual-text person").on('click', function () {
 			console.log("actual-text: ", $(this).text());
 			$('#search-box').val($(this).text());
-			self.myKeyboard.setInput($(this).text());
+			if(self.myKeyboard) self.myKeyboard.setInput($(this).text());
 			self.throttleFunction(() => self.doSearch(self), 0);
 		});
 		$(".actual-text location").on('click', function () {
 			console.log("actual-text: ", $(this).text());
 			$('#search-box').val($(this).text());
-			self.myKeyboard.setInput($(this).text());
+			if(self.myKeyboard) self.myKeyboard.setInput($(this).text());
 			self.throttleFunction(() => self.doSearch(self), 0);
 		});
 		$(".actual-text item").on('click', function () {
 			console.log("actual-text: ", $(this).text());
 			$('#search-box').val($(this).text());
-			self.myKeyboard.setInput($(this).text());
+			if(self.myKeyboard) self.myKeyboard.setInput($(this).text());
 			self.throttleFunction(() => self.doSearch(self), 0);
 		});
 	}
