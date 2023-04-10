@@ -229,15 +229,16 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 			});
 		}
 
-		$('#search-box').on('focus', function () {
-			$('#keyboard').show("slow");
-			$("#keyboard-hide").show("slow");
-		});
-
-		$("#keyboard-hide").on('click', function () {
-			$('#keyboard').hide("slow");
-			$("#keyboard-hide").hide("slow");
-		});
+		if(self.myKeyboard) {
+			$('#search-box').on('focus', function () {
+				$('#keyboard').show("slow");
+				$("#keyboard-hide").show("slow");
+			});
+			$("#keyboard-hide").on('click', function () {
+				$('#keyboard').hide("slow");
+				$("#keyboard-hide").hide("slow");
+			});
+		}
 
 		$("#search-box-clear").on('click', function () {
 			$('#search-box').val("");
