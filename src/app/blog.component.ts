@@ -3,7 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
 import $ from "jquery";
 import {SimpleKeyboard} from 'simple-keyboard';
-import * as Modernizr from 'modernizr';
+//import * as Modernizr from 'modernizr';
+//import * as Modernizr from '@types/modernizr';
+//import Modernizr from 'modernizr';
 
 export interface Post {
 	id: number;
@@ -37,8 +39,16 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 	constructor(private http: HttpClient) {
 	}
 
+	// https://www.geeksforgeeks.org/how-to-detect-touch-screen-device-using-javascript/
+	is_touch_enabled() {
+		return ( 'ontouchstart' in window ) ||
+			( navigator.maxTouchPoints > 0 ) ||
+			( (navigator as any).msMaxTouchPoints > 0 );
+	}
+
 	ngOnInit(): void {
-		this.onMobile = Modernizr.touchevents;
+		//this.onMobile = Modernizr.touchevents;
+		this.onMobile = this.is_touch_enabled();
 
 		this.getPosts().subscribe(posts => {
 			posts.forEach(post => {
