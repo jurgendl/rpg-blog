@@ -3,88 +3,15 @@
  * styles.scss
  */
 
-/* ------------------------------------ */
-
 html body {
 	color: #858796;
 }
 
-/* ------------------------------------ */
-
-person,
-location,
-item {
-	text-decoration: underline;
-	cursor: pointer;
+.selected ,
+::selection {
+	color: black;
+	background-color: #ffe959;
 }
-
-person {
-	color: coral;
-}
-
-location {
-	color: darkcyan;
-}
-
-item {
-	color: slateblue;
-}
-
-/* ------------------------------------ */
-
-.card {
-	margin-bottom: 1em;
-}
-
-.card .card-img {
-	border-radius: 0;
-}
-
-.posts-component {
-	padding: 2em 1em;
-	margin: 0 auto 1em auto;
-	/*max-width: 1024px;*/
-}
-
-.card-header {
-	display: flex;
-}
-
-.post-header-tile {
-	flex-grow: 1;
-}
-
-.post-header-suffix {
-	min-width: 200px;
-	text-align: right;
-	text-transform: uppercase;
-}
-
-/* ------------------------------------ */
-
-/* https://css-tricks.com/almanac/properties/g/grid-template-columns/ */
-/*
-display: grid;: Sets the display property to grid, which allows you to create a grid container and specify its grid items.
-
-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));: Sets the columns of the grid. The repeat() function creates a repeated pattern of columns. The auto-fit value tells the browser to automatically fill up the available space with as many columns as possible, without overflowing the container. The minmax() function sets the minimum and maximum size of the columns. In this case, the minimum size is set to 250 pixels and the maximum size is set to 1fr, which means that the column will take up as much available space as it can.
-
-gap: 10px;: Sets the gap or spacing between the grid items. In this case, it is set to 10 pixels.
-
-Overall, this style creates a grid layout with columns that will automatically adjust to fit the available space, with a minimum size of 250 pixels and a maximum size that expands to fill the available space. The images within the grid will be spaced out by 10 pixels.
-*/
-.image-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* adjust the minmax value to your liking */
-	gap: 10px; /* adjust the gap value to your liking */
-}
-
-.image-grid img {
-	display: block;
-	width: 100%;
-	height: auto;
-}
-
-/* ------------------------------------ */
 
 #search-box {
 	/*background: rgba(0, 0, 0, .375) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQBJREFUeNqslI0RgyAMhdENWIEVWMEVXIGO0BW6Ah2hHcGOoCPYEewINFzBe9IA9id37w4kfEZesHHOCSYUqSPJML+RJlELDwN1pMHxMZNMkr8RTgyz2YPH5LmtwXpIHkOFmKhIlxowDmYAycKnHAHYcTCsSpXOJCie6YWDnXKLGeHLN2stGaqDsXXrX3GFcYcLrfhjtKEhffQ792gYT2nT6pJDjCw4z7ZGdGipOIqNbXIwFUARmCbKpMfYxsWJBmCEDoW7+gYUTAU2s3HJrK3AJvMLkqGHFLgWXTckm+SfSQexs+tLRqwVfgvjgMsvMAT689S5M/sk/I14kO5PAQYAuk6L1q+EdHMAAAAASUVORK5CYII=) no-repeat 14px 14px;*/
@@ -104,14 +31,59 @@ Overall, this style creates a grid layout with columns that will automatically a
 	cursor: text;
 }
 
-/*#search-box::-webkit-search-cancel-button {
-	-webkit-appearance: none;
-}*/
-
-.selected ,
-::selection {
-	color: black;
-	background-color: #ffe959;
+.posts-component {
+	padding: 2em 1em;
+	margin: 0 auto 1em auto;
+	.card {
+		margin-bottom: 1em;
+		.card-header {
+			display: flex;
+			.post-header-title {
+				flex-grow: 1;
+			}
+			.post-header-suffix {
+				min-width: 200px;
+				text-align: right;
+				text-transform: uppercase;
+			}
+		}
+		.card-body {
+			.card-text {
+				.actual-text {
+					person,
+					location,
+					item {
+						text-decoration: underline;
+						cursor: pointer;
+					}
+					person {
+						color: coral;
+					}
+					location {
+						color: darkcyan;
+					}
+					item {
+						color: slateblue;
+					}
+				}
+				/* https://css-tricks.com/almanac/properties/g/grid-template-columns/ */
+				/*
+				display: grid;: Sets the display property to grid, which allows you to create a grid container and specify its grid items.
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));: Sets the columns of the grid. The repeat() function creates a repeated pattern of columns. The auto-fit value tells the browser to automatically fill up the available space with as many columns as possible, without overflowing the container. The minmax() function sets the minimum and maximum size of the columns. In this case, the minimum size is set to 250 pixels and the maximum size is set to 1fr, which means that the column will take up as much available space as it can.
+				gap: 10px;: Sets the gap or spacing between the grid items. In this case, it is set to 10 pixels.
+				Overall, this style creates a grid layout with columns that will automatically adjust to fit the available space, with a minimum size of 250 pixels and a maximum size that expands to fill the available space. The images within the grid will be spaced out by 10 pixels.
+				*/
+				.image-grid {
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* adjust the minmax value to your liking */
+					gap: 10px; /* adjust the gap value to your liking */
+					img {
+						display: block;
+						width: 100%;
+						height: auto;
+					}
+				}
+			}
+		}
+	}
 }
-
-/* ------------------------------------ */
