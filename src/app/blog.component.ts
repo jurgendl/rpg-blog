@@ -40,7 +40,19 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 	}
 
 	// https://www.geeksforgeeks.org/how-to-detect-touch-screen-device-using-javascript/
-	is_touch_enabled() {
+	isTouchEnabled() {
+		try {
+			// @ts-ignore
+			const touchevents: boolean = (window.Modernizr as any).touchevents;
+			return !touchevents;
+		} catch (e) {
+			if (document.documentElement.classList.contains('no-touchevents')) {
+				return false;
+			}
+			if (document.documentElement.classList.contains('touchevents')) {
+				return true;
+			}
+		}
 		return ( 'ontouchstart' in window ) ||
 			( navigator.maxTouchPoints > 0 ) ||
 			( (navigator as any).msMaxTouchPoints > 0 );
@@ -48,7 +60,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
 	ngOnInit(): void {
 		//this.onMobile = Modernizr.touchevents;
-		this.onMobile = this.is_touch_enabled();
+		this.onMobile = this.isTouchEnabled();
 
 		this.getPosts().subscribe(posts => {
 			posts.forEach(post => {
