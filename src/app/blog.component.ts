@@ -26,7 +26,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 	posts$!: Post[];
 	timerId: number | undefined;
 	myKeyboard: SimpleKeyboard | undefined;
-	onMobile: boolean = false;
+	touchevents: boolean = false;
 
 	/*search(searchTerm: string) {
 		const regex = this.blogService.convertToRegex(searchTerm);
@@ -41,27 +41,34 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
 	// https://www.geeksforgeeks.org/how-to-detect-touch-screen-device-using-javascript/
 	isTouchEnabled() {
-		try {
-			// @ts-ignore
-			const touchevents: boolean = (window.Modernizr as any).touchevents;
-			return !touchevents;
-		} catch (e) {
-			if (document.documentElement.classList.contains('no-touchevents')) {
-				return false;
-			}
-			if (document.documentElement.classList.contains('touchevents')) {
-				return true;
+		if(!this.touchevents) {
+			try {
+				// @ts-ignore
+				this.touchevents = (window.Modernizr as any).touchevents;
+				// @ts-ignore
+				console.log("a:touchevents: ", (window.Modernizr as any).touchevents);
+				return this.touchevents;
+			} catch (e) {
+				if (document.documentElement.classList.contains('no-touchevents')) {
+					console.log("b:no-touchevents: ", document.documentElement.classList.contains('no-touchevents'));
+					this.touchevents = false;
+				} else if (document.documentElement.classList.contains('touchevents')) {
+					console.log("c:touchevents: ", document.documentElement.classList.contains('touchevents'));
+					this.touchevents = true;
+				} else {
+					console.log("d:touchevents: ", ( 'ontouchstart' in window ) ||
+						( navigator.maxTouchPoints > 0 ) ||
+						( (navigator as any).msMaxTouchPoints > 0 ));
+					this.touchevents = ( 'ontouchstart' in window ) ||
+						( navigator.maxTouchPoints > 0 ) ||
+						( (navigator as any).msMaxTouchPoints > 0 );
+				}
 			}
 		}
-		return ( 'ontouchstart' in window ) ||
-			( navigator.maxTouchPoints > 0 ) ||
-			( (navigator as any).msMaxTouchPoints > 0 );
+		return this.touchevents;
 	}
 
 	ngOnInit(): void {
-		//this.onMobile = Modernizr.touchevents;
-		this.onMobile = this.isTouchEnabled();
-
 		this.getPosts().subscribe(posts => {
 			posts.forEach(post => {
 				post.plainText = this.convertToPlainText(post.text);
@@ -229,7 +236,8 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 		// https://hodgef.com/simple-keyboard/demos/
 		// https://www.npmjs.com/package/simple-keyboard
 		//const Keyboard = (window as any).SimpleKeyboard.default as SimpleKeyboard;
-		if(!this.onMobile) {
+		if(!this.isTouchEnabled()) {
+			console.log("SimpleKeyboard");
 			self.myKeyboard = new SimpleKeyboard({
 				onChange: function (input: string) {
 					(document.querySelector(".search-box") as HTMLInputElement).value = input;
@@ -239,9 +247,6 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 					//
 				}
 			});
-		}
-
-		if(self.myKeyboard) {
 			$('#search-box').on('focus', function () {
 				$('#keyboard').show("slow");
 				$("#keyboard-hide").show("slow");
