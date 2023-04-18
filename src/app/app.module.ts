@@ -31,7 +31,7 @@ registerLocaleData(localeNl, 'nl-NL');
 		HttpClientModule,
 	],
 	providers: [
-		{provide: APP_BASE_HREF, useValue: '/rpg-blog'},
+//		{provide: APP_BASE_HREF, useValue: '/rpg-blog'},
 		{provide: LOCALE_ID, useValue: "nl-NL"},//https://stackoverflow.com/questions/46419026/missing-locale-data-for-the-locale-xxx-with-angular
 	],
 	bootstrap: [AppComponent]
