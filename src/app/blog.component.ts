@@ -240,20 +240,22 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 			console.log("SimpleKeyboard");
 			self.myKeyboard = new SimpleKeyboard({
 				onChange: function (input: string) {
-					(document.querySelector(".search-box") as HTMLInputElement).value = input;
+					searchBoxDom.value = input;
 					self.throttleFunction(() => self.doSearch(self), 1000);
 				},
 				onKeyPress: function (button: any) {
 					//
 				}
 			});
-			$('#search-box').on('focus', function () {
-				$('#keyboard').show("slow");
-				$("#keyboard-hide").show("slow");
+			document.getElementById('search-box')?.addEventListener('focus', function () {
+				/*keyboardContainer.style.display = 'block';
+				keyboardContainer.style.transition = 'all 0.5s ease-in-out';*/
+				$('#keyboardcontainer').show("slow");
 			});
-			$("#keyboard-hide").on('click', function () {
-				$('#keyboard').hide("slow");
-				$("#keyboard-hide").hide("slow");
+			document.getElementById('keyboard-hide')?.addEventListener('click', function () {
+				/*keyboardContainer.style.display = 'none';
+				keyboardContainer.style.transition = 'all 0.5s ease-in-out';*/
+				$('#keyboardcontainer').hide("slow");
 			});
 		}
 
