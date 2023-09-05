@@ -23,22 +23,22 @@
 <!-- center children horizontally -->
 <div class="container-fluid"
 	 style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-	<div style="width: 100%; text-align: center" class="pt-2 pb-2">
-		<div style="display: inline-block; width: 80%;">
-			<input style="display: inline-block; width: 80%;" id="search-box" type="search"
+	<div class="sb" class="pt-2 pb-2">
+		<div>
+			<input autocomplete="off" id="search-box" type="search"
 				   class="form-control search-box">
-			<button style="display: inline-block;" class="btn btn-sm btn-secondary" style="margin: 0 1em 1em 1em;"
+			<button class="btn btn-sm btn-secondary"
 					id="search-box-clear">
 				<i class="fa-fw far fa-trash-alt"></i>
 			</button>
 		</div>
 	</div>
-	<div class="kb">
+	<div id="keyboardcontainer" style="display: none">
 		<div style="width: 100%;" class="">
-			<div id="keyboard" style="display: none; color: black;" class="simple-keyboard"></div>
+			<div id="keyboard" style="color: black;" class="simple-keyboard"></div>
 		</div>
 		<div style="width: 100%;" class="">
-			<button class="btn btn-sm btn-secondary" style="display: none; width: 100%;" id="keyboard-hide">
+			<button class="btn btn-sm btn-secondary" style="width: 100%;" id="keyboard-hide">
 				<i class="far fa-eye-slash"></i>
 			</button>
 		</div>

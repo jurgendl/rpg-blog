@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
 import $ from "jquery";
 import {SimpleKeyboard} from 'simple-keyboard';
+import layout from "simple-keyboard-layouts/build/layouts/french";
 //import * as Modernizr from 'modernizr';
 //import * as Modernizr from '@types/modernizr';
 //import Modernizr from 'modernizr';
@@ -240,20 +241,54 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 			console.log("SimpleKeyboard");
 			self.myKeyboard = new SimpleKeyboard({
 				onChange: function (input: string) {
-					(document.querySelector(".search-box") as HTMLInputElement).value = input;
+					searchBoxDom.value = input;
 					self.throttleFunction(() => self.doSearch(self), 1000);
 				},
 				onKeyPress: function (button: any) {
-					//
-				}
+					if (button === "{shift}" || button === "{lock}") {
+						const currentLayout = self.myKeyboard!.options.layoutName;
+						const shiftToggle = currentLayout === "default" ? "shift" : "default";
+						self.myKeyboard!.setOptions({
+							layoutName: shiftToggle
+						});
+					}
+				},
+				theme: "hg-theme-default hg-layout-default",
+				/*layout: {
+					default: [
+						"` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+						"{tab} q w e r t y u i o p [ ] \\",
+						"{lock} a s d f g h j k l ; '",
+						"{shift} z x c v b n m , . / {shift}",
+						"{space}"
+					],
+					shift: [
+						"~ ! @ # $ % ^ & * ( ) _ + {bksp}",
+						"{tab} Q W E R T Y U I O P { } |",
+						'{lock} A S D F G H J K L : "',
+						"{shift} Z X C V B N M < > ? {shift}",
+						"{space}"
+					]
+				},
+				display: {
+					"{tab}": "tab ↹",
+					"{bksp}": "backspace ←",
+					"{enter}": "enter ↵",
+					"{lock}": "caps lock ⇪",
+					"{shift}": "shift ⇧",
+					"{space}": "space"
+				}*/
+				...layout
 			});
-			$('#search-box').on('focus', function () {
-				$('#keyboard').show("slow");
-				$("#keyboard-hide").show("slow");
+			document.getElementById('search-box')?.addEventListener('focus', function () {
+				/*keyboardContainer.style.display = 'block';
+				keyboardContainer.style.transition = 'all 0.5s ease-in-out';*/
+				$('#keyboardcontainer').show("slow");
 			});
-			$("#keyboard-hide").on('click', function () {
-				$('#keyboard').hide("slow");
-				$("#keyboard-hide").hide("slow");
+			document.getElementById('keyboard-hide')?.addEventListener('click', function () {
+				/*keyboardContainer.style.display = 'none';
+				keyboardContainer.style.transition = 'all 0.5s ease-in-out';*/
+				$('#keyboardcontainer').hide("slow");
 			});
 		}
 

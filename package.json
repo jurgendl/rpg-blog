@@ -1,6 +1,6 @@
 {
 	"name": "rpg-blog",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"scripts": {
 		"ng": "ng",
 		"start": "ng serve",
@@ -25,6 +25,7 @@
 		"bootstrap": "^4.6.2",
 		"rxjs": "~7.8.0",
 		"simple-keyboard": "^3.5.45",
+		"simple-keyboard-layouts": "^3.1.312",
 		"tslib": "^2.3.0",
 		"zone.js": "~0.12.0"
 	},
