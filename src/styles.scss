@@ -7,7 +7,7 @@
 $breakpoint-tablet: 768px;
 
 html body {
-	color: #858796;
+	color: #1a1a1a;
 }
 
 .selected ,
@@ -81,18 +81,24 @@ html body {
 					person,
 					location,
 					item {
-						text-decoration: underline;
+						//text-decoration: underline;
 						cursor: pointer;
+						padding: 2px;
 					}
 					person {
-						color: coral;
+						color: #177900;
+						background: #ecf5e9;
 					}
 					location {
-						color: darkcyan;
+						color: #9f0000;
+						background: #fff4f4;
 					}
 					item {
-						color: slateblue;
+						color: #6a5acd;
+						background: #efedfa;
 					}
+					font-size: 15px;
+					line-height: 22px;
 				}
 				/* https://css-tricks.com/almanac/properties/g/grid-template-columns/ */
 				/*
