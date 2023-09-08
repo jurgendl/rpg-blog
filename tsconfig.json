@@ -1,53 +1,24 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-	"compileOnSave": false,
 	"compilerOptions": {
-		"baseUrl": "./",
-		"outDir": "./dist/out-tsc",
-		"forceConsistentCasingInFileNames": true,
-		"strict": true,
-		"noImplicitOverride": true,
-		"noPropertyAccessFromIndexSignature": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"sourceMap": true,
-		"declaration": false,
-		"downlevelIteration": true,
-		"experimentalDecorators": true,
+		"outDir": "./dist/",
 		"moduleResolution": "node",
-		"importHelpers": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"sourceMap": false,
 		"target": "ES2022",
 		"module": "ES2022",
-		"useDefineForClassFields": false,
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
+		"jsx": "react",
+		"allowJs": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
 		"lib": [
 			"ES2022",
-			"dom"
+			"DOM"
 		]
-		/* https://stackoverflow.com/questions/41307024/absolute-path-in-angular-cli-project */
-		/*,"paths": {
-		  "@app/*": [
-			"src/app/*"
-		  ],
-		  "@services/*": [
-			"src/app/services/*"
-		  ],
-		  "@model/*": [
-			"src/app/model/*"
-		  ],
-		  "@components/*": [
-			"src/app/components/*"
-		  ],
-		  "@routing/*": [
-			"src/app/routing/*"
-		  ]
-		}*/
 	},
-	"angularCompilerOptions": {
-		"enableI18nLegacyMessageIdFormat": false,
-		"strictInjectionParameters": true,
-		"strictInputAccessModifiers": true,
-		"strictTemplates": true
-	}
+	"exclude": [
+		"spec"
+	]
 }
