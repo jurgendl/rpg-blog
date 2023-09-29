@@ -1,5 +1,7 @@
 {
 	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
 		"experimentalDecorators": true,
 		"esModuleInterop": true,
 		"outDir": "./dist/",
